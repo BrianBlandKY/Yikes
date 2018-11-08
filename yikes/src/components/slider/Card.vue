@@ -19,8 +19,8 @@ export default {
   data: function() {
     if (this.featured) {
       return {
-        width: 600,
-        height: 600
+        width: 620,
+        height: 620
       }
     } else {
       return {
