@@ -1,29 +1,29 @@
 .flex-slider {
-    display: flex;
-    position: relative;
-    /* height: 100vh; */
-    /* height: 100vh; */
-    width: 100%;
-    margin-bottom: 20px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    overflow: hidden;
-    justify-content: flex-start;
+  display: flex;
+  position: relative;
+  /* height: 100vh; */
+  /* height: 100vh; */
+  width: 100%;
+  margin-bottom: 20px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  overflow: hidden;
+  justify-content: flex-start;
 }
 
 .box-slider {
-    flex-grow: 0;
-    /* width: 100%; */
-    /* padding: 30px; */
+  flex-grow: 0;
+  /* width: 100%; */
+  /* padding: 30px; */
 
-    &.max {
-        height: 620px;
-        width: 620px;
-        // position: absolute;
-    }
-    
-    &.tile {
-        height: 300px;
-        width: 300px;
-    }
+  &.max {
+      height: 620px;
+      width: 620px;
+      // position: absolute;
+  }
+  
+  &.tile {
+      height: 300px;
+      width: 300px;
+  }
 }
