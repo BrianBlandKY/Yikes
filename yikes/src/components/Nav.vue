@@ -1,24 +1,22 @@
 <template>
-    <div class="nav">
-      <div class="icon-container">
-        <div :key="x.name" v-for="x in apps" class="nav-icon">
-          <router-link v-bind:to="x.path">{{x.display}}</router-link>
-        </div>
+  <div class="nav">
+    <div class="icon-container">
+      <div :key="x.name" v-for="x in views" class="nav-icon">
+        <router-link v-bind:to="x.path">{{x.display}}</router-link>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'Nav',
   props: {
-    apps: {
+    views: {
       type: Array,
       required: true
     }
   },
-  data: () => ({
-  }),
   components: {
   }
 }
@@ -27,8 +25,8 @@ export default {
 <style lang="scss">
 .nav {
   flex-grow: 0;
-  min-width: 85px;
-  width: 85px;
+  min-width: 70px;
+  width: 70px;
 }
 
 .icon-container { 
@@ -40,7 +38,7 @@ export default {
 }
 
 .nav-icon {
-  margin: 5px 0;
+  margin: 0 0 5px 0;
   width: 60px;
   height: 60px;
   border: 1px solid white;

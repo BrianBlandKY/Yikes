@@ -1,23 +1,26 @@
 <template>
 <Root>
   <Viewport>
-    <Nav v-bind:apps="appsList" />
+    <Nav v-bind:views="filteredViews" />
     <Renderer />
   </Viewport>
 </Root>
 </template>
 
 <script>
-import { appsList } from '@/apps.js'
+import _ from 'lodash'
+import { views } from '@/views.js'
 import Root from '@/framing/Root.vue'
 import Viewport from '@/framing/Viewport.vue'
 import Renderer from '@/framing/Renderer.vue'
 import Nav from '@/components/Nav.vue'
 
+let filteredViews = _.filter(views, function(o) { return o.path != "/" })
+
 export default {
   name: 'Yikes',
   data: () => ({
-    appsList
+    filteredViews
   }),
   components: {
     Root,
@@ -46,7 +49,7 @@ body {
   // font-family: 'Federant', cursive; 
   font-family: 'Righteous', cursive;
 
-  &a, a:visited {
+  a, a:visited {
     color: white;
   }
 

@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { appsList } from '@/apps.js'
+import { views } from '@/views.js'
 
 Vue.use(Router)
 
 let routes = []
 
-appsList.forEach((app) => {
+views.forEach((view) => {
   routes.push({
-    path: app.path,
-    name: app.name,
-    component: app.component
+    path: view.path,
+    name: view.name,
+    component: view.component
   })
 })
 

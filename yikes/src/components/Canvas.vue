@@ -1,11 +1,14 @@
 <template>
   <div class="canvas-wrapper">
     <div v-if="loaded">
-      <canvas :id="canvasId" style="background:red" height="900" width="600"></canvas>
+      <canvas :id="canvasId" height="900" width="600"></canvas>
     </div>
     <div v-else>
       <input type="button" value="New Glyph" />
     </div>
+    <img id="myImg" />
+    <!-- <span v-html="default_img">
+    </span> -->
   </div>
 </template>
 
@@ -21,7 +24,8 @@ export default {
       canvasId: uuidv4(),
       isPressed: false,
       loaded: true,
-      prevPos: null
+      prevPos: null,
+      default_img: this.$store.state.draw.library.default_img
     }
   },
   methods: {
@@ -46,7 +50,7 @@ export default {
         var ctx = canvas.getContext('2d');
         ctx.beginPath();
         ctx.strokeStyle = 'blue';
-        ctx.lineWidth = 10;
+        ctx.lineWidth = 3;
         ctx.moveTo(this.$data.prevPos.x, this.$data.prevPos.y);
         ctx.lineTo(pos.x, pos.y);
         ctx.stroke();
@@ -101,18 +105,39 @@ export default {
       // var pos = self.getMousePos(canvas, evt);
       // console.log("mouseup");
     }, false);
+
+    // var svg = document.getElementById("mySvg");
+    // console.log('svg', svg);
+    // var xml = new XMLSerializer().serializeToString(svg);
+
+    // make it base64
+    // var svg64 = btoa(xml);
+    // var b64Start = 'data:image/svg+xml;base64,';
+
+    // prepend a "header"
+    // var image64 = b64Start + svg64;
+      
+    // var img = document.getElementById("myImg");
+    // img.onload = function() {
+    //   canvas.getContext('2d').drawImage(img, 0, 0);
+    //   console.log("draw something", canvas, img);
+    // }
+    // // img.src = image64;
+    // img.height = 200;
+    // img.width = 200;
+    // img.src = "default.svg";
   },
   updated: function() {
-    
+    // What triggers this?
   }
 }
 </script>
 
 <style lang="scss">
 .canvas-wrapper {
-  // flex-grow: 0;
-  // position: relative;
+  position: relative;
+  display: block;
   width: 600px;
-  margin: auto;
+  background-color: #d4d4d6;
 }
 </style>
