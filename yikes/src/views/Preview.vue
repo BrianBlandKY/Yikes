@@ -1,6 +1,8 @@
 <template>
 <Wrapper>
-  <p>Preview</p>
+  <div class="basic-container">
+    <p>Preview</p>
+  </div>
 </Wrapper>
 </template>
 

@@ -1,1 +1,6 @@
-$container-max-width: 950px;
+$container-max-width: 650px;
+
+.basic-container {
+  flex-grow: 1;
+  max-width: $container-max-width
+}

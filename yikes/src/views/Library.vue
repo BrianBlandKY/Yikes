@@ -1,6 +1,8 @@
 <template>
 <Wrapper>
-  <p>Library</p>
+  <div class="basic-container">
+    <p>Library</p>
+  </div>
 </Wrapper>
 </template>
 

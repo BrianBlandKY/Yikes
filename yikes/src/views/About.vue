@@ -1,6 +1,6 @@
 <template>
 <Wrapper>
-  <div class="about-container">
+  <div class="basic-container">
     <p>App Logo</p>
     <p>Description</p>
   </div>
@@ -17,10 +17,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-.about-container {
-  flex-grow: 1;
-  max-width: $container-max-width
-}
-</style>
