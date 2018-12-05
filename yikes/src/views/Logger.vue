@@ -1,17 +1,25 @@
 <template>
 <Wrapper>
-  <div class="basic-container">
-    <div v-bind:key="record.key" v-for="record in history">
-      <p>{{record.message}}</p>
+  <div class="log-master-container">
+    <div class="log-entry-container">
+      <div v-bind:key="record.id" v-for="record in orderedHistory" 
+        v-bind:class="selectedClass(record)" 
+        v-on:click="selectedRecord(record)">
+          <div class="stamp-date">{{record.stampDate}}</div>
+          <div class="stamp-time">{{record.stampTime}}</div>
+          <div class="action">{{record.action}}</div>
+          <div class="message">{{record.message}}</div>
+      </div>
     </div>
-    <p>Logger</p>
-    <input type="button" value="Dispatch override example" v-on:click="override" />
+    <div class="log-scope-container">
+      <pre><code>{{scopedState}}</code></pre>
+    </div>
   </div>
 </Wrapper>
 </template>
 
 <script>
-// @ is an alias to /src
+import { mapState } from 'vuex'
 import Wrapper from '@/framing/Wrapper.vue'
 
 export default {
@@ -19,15 +27,82 @@ export default {
   components: {
     Wrapper
   },
-  data: function() {
-    return {
-      history: this.$store.state.logger.history
-    }
-  },
+  computed: mapState({
+    history: state => state.logger.history,
+    orderedHistory: (state, store) => store["logger/orderedHistory"],
+    scopedState: (state, store) => store['logger/scopedState']
+  }),
   methods: {
-    override: function(){
-      this.$store.dispatch("someAction");
+    selectedClass: function(record){
+      if (this.$store.state.logger.selectedId != null &&
+      this.$store.state.logger.selectedId == record.id) {
+        return "entry selected";
+      } else {
+        return "entry";
+      }
+    },
+    selectedRecord: function(record){
+      this.$store.dispatch("logger/select", { record });
     }
   }
 }
 </script>
+
+<style lang="scss">
+  @import '@/variables.scss';
+
+  .log-master-container{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: .8em;
+    font-weight: 600;
+    color: black;
+    background-color: $context-background-color;
+
+    display: flex;
+    width: 1000px;
+    flex-grow: 0;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: flex-start;
+    cursor: pointer;
+  }
+  .log-entry-container {
+    flex: 0 1 auto;
+    position: relative;
+    width: 600px;
+    min-height: 100vh;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    
+    .selected {
+      background-color: red;
+    }
+
+    .entry {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      width: 100vw;
+
+      .stamp-date, .stamp-time {
+        width: 75px;
+        margin-right: 2em;
+      }
+      .action {
+        width: 75px;
+        margin-right: 2em;
+      }
+      .message {
+        // display: block;
+        width: 400px;
+      }
+    }
+  }
+  .log-scope-container {
+    flex: 0 1 auto;
+    position: relative;
+    width: 400px;
+    height: 100vh;
+  }
+
+</style>

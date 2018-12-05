@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { views } from '@/views.js'
+import store from './store'
 
 Vue.use(Router)
 
@@ -14,8 +15,23 @@ views.forEach((view) => {
   })
 })
 
-export default new Router({
+var router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: routes
 })
+
+// Navigation hooks, logging
+router.beforeEach((to, from, next) => {
+  store.dispatch("logger/log",{ 
+    action: "navigation", 
+    message: "Vue-Router navigation.",
+    data: {
+      to: to.fullPath,
+      from: from.fullPath
+    }
+  });
+  next();
+})
+
+export default router

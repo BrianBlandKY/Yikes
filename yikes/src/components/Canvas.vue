@@ -134,10 +134,12 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/variables.scss';
+
 .canvas-wrapper {
   position: relative;
   display: block;
   width: 600px;
-  background-color: #d4d4d6;
+  background-color: $context-background-color;
 }
 </style>

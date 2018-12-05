@@ -1,10 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import uuidv4 from 'uuid/v4'
+import {logDateFormat} from '@/utils/date'
+import _ from 'lodash'
 
 Vue.use(Vuex)
 
 const drawState = {
+  namespaced: true,
   state: {
     description: "A simple canvas to svg drawing tool.",
     editor: {
@@ -13,32 +16,53 @@ const drawState = {
     library: {
       default_img: `<svg id="mySvg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><g fill="white" stroke="green" stroke-width="5"><circle cx="40" cy="40" r="25" /><circle cx="60" cy="60" r="25" /></g></svg>`
     }
-  },
-  getters: {
-    default_image(state, getters, rootState) {
-      console.log('getter state', state, rootState);
-      return 1;
-    }
   }
 }
 
 const loggerState = {
+  namespaced: true,
   state: {
-    history: []
+    history: [],
+    selectedId: null
   },
   getters: {
-    sortedHistory(state) {
-      // return the history 
-      // sorted by date (desc)
-      // limit 50?
-      return state.history;
+    orderedHistory: (state) => {
+      return _.orderBy(state.history, ['stampRaw'], ['desc']);
+    },
+    scopedState: (state) => {
+      if (state.selectedId){
+        let entry = state.history.filter((x) => x.id == state.selectedId)
+        return entry[0].data;
+      } else {
+        return "";
+      }
     }
   },
   mutations: {
+    select(state, { record }) {
+      let entry = state.history.filter((x) => x.id == record.id)
+      state.selectedId = entry[0].id
+    },
+    save(state, { action, message, data }) {
+      let stamp = new Date(Date.now())
+      let record = { 
+        id: uuidv4(),
+        action: action, 
+        message: message, 
+        data: data,
+        stampRaw: stamp,
+        stampDate: logDateFormat(stamp).date,
+        stampTime: logDateFormat(stamp).time
+      }
+      state.history.push(record);
+    }
   },
   actions: {
-    log(context, { action, message}) {
-      context.commit('logSave', { action, message });
+    select(context, { record }){
+      context.commit('select', { record });
+    },
+    log(context, { action, message, data}) {
+      context.commit('save', { action, message, data});
     }
   }
 }
@@ -58,19 +82,10 @@ export default new Vuex.Store({
     logger: loggerState
   },
   mutations: {
-    logSave(state, { action, message }) {
-      state.logger.history.push({ 
-        key: uuidv4(),
-        action: action, 
-        message: message, 
-        state: JSON.stringify(state.draw),
-        stamp: Date.now()
-      })
-    }
   },
   actions: {
     someAction(context) {
-      context.dispatch("log", { 
+      context.dispatch("logger/log", { 
         action: "someAction", 
         message: "some message"
       });
