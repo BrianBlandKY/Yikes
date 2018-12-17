@@ -41,6 +41,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/variables.scss';
+
 .region {
   flex-grow: 0;
   position: relative;
@@ -81,7 +83,7 @@ export default {
 .region-space {
   margin: 0 2px;
   &.on {
-    border: 1px solid white;
+    border: 1px solid $accent-light;
   }
 }
 </style>

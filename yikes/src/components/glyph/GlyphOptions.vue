@@ -1,6 +1,6 @@
 <template>
  <div class="option-wrapper">
-  <div class="option-container">
+  <div class="option-toolkit">
     <div :key="x.name" v-for="x in options" class="option-icon">
       <input type="button" v-bind:value="x.display" />
     </div>
@@ -30,15 +30,18 @@ export default {
 
 <style lang="scss">
 .option-wrapper {
-  flex-grow: 0;
-  position: relative;
-  width: 50px;
-}
-.option-container { 
   display: flex;
+  width: 400px;
+  flex-grow: 0;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: flex-start;
+  cursor: pointer;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+}
+.option-toolkit { 
+  flex: 0 1 auto;
+  display: block;
   width: 50px;
 }
 .option-icon {

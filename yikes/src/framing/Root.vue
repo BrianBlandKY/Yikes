@@ -21,7 +21,9 @@ export default {
   Stretches to the viewport with flex columns
 */
 .frame { 
-  background-color: #202225;
+  @import '@/variables.scss';
+
+  background-color: $accent-dark;
   display: flex;
   flex-direction: column;
   height: 100vh;

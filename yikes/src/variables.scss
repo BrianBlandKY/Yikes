@@ -1,5 +1,19 @@
+// Color Scheme
+$accent-dark: #222B3F;
+$accent-soft: #4C6399;
+$accent-light: #E6E6E6;
+$accent-alert: #588AFF;
+$accent-shade: #91959D;
+
+// Font Scheme
+// Consider moving this out of application build
+// It's slow to load sometimes.
+@import url('https://fonts.googleapis.com/css?family=Righteous');
+$font-family: 'Righteous', cursive;
+$logger-font-family: 'Avenir', Helvetica, Arial, sans-serif;
+
 $container-max-width: 650px;
-$context-background-color: #d4d4d6;
+$context-background-color: $accent-light;
 
 .basic-container {
   flex-grow: 1;

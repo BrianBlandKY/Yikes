@@ -15,13 +15,11 @@ import Viewport from '@/framing/Viewport.vue'
 import Renderer from '@/framing/Renderer.vue'
 import Nav from '@/components/Nav.vue'
 
-let filteredViews = _.filter(views, function(o) { return o.path != "/" })
-
 export default {
   name: 'Yikes',
-  data: () => ({
-    filteredViews
-  }),
+  computed: {
+    filteredViews: () => _.filter(views, function(o) { return o.path != "/" })
+  },
   components: {
     Root,
     Viewport,
@@ -32,25 +30,18 @@ export default {
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Federant|Indie+Flower|Pacifico|Righteous|Spicy+Rice');
+@import '@/variables.scss';
 
 // Do we need to import normalize.css?
 body {
   margin: 0;
   padding: 0;
-  color: white;
-  // font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  // font-family: 'Source Sans Pro', sans-serif;
-  // font-family: 'KoHo', sans-serif;
-  // font-family: 'Indie Flower', cursive;
-  // font-family: 'Indie Flower', cursive;
-  // font-family: 'Spicy Rice', cursive;
-  // font-family: 'Pacifico', cursive; 
-  // font-family: 'Federant', cursive; 
-  font-family: 'Righteous', cursive;
+  color: $accent-light;
+
+  font-family: $font-family;
 
   a, a:visited {
-    color: white;
+    color: $accent-light;;
   }
 
   p {

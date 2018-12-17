@@ -1,8 +1,8 @@
 <template>
 <Wrapper>
   <div class="log-master-container">
-    <div class="log-entry-container">
-      <div v-bind:key="record.id" v-for="record in orderedHistory" 
+    <div  class="log-entry-container">
+      <div v-bind:key="record.id" v-for="record in history" 
         v-bind:class="selectedClass(record)" 
         v-on:click="selectedRecord(record)">
           <div class="stamp-date">{{record.stampDate}}</div>
@@ -29,43 +29,64 @@ export default {
   },
   computed: mapState({
     history: state => state.logger.history,
-    orderedHistory: (state, store) => store["logger/orderedHistory"],
     scopedState: (state, store) => store['logger/scopedState']
   }),
   methods: {
     selectedClass: function(record){
       if (this.$store.state.logger.selectedId != null &&
       this.$store.state.logger.selectedId == record.id) {
-        return "entry selected";
+        return "entry selected"
       } else {
-        return "entry";
+        return "entry"
       }
     },
     selectedRecord: function(record){
-      this.$store.dispatch("logger/select", { record });
+      this.$store.dispatch("logger/select", { record })
+    },
+    cycle: function(event){
+      if (event.key === "ArrowUp") {
+        this.$store.dispatch("logger/cycle", { status:true })
+      }
+      if (event.key === "ArrowDown") {
+        this.$store.dispatch("logger/cycle", { status:false })
+      } 
     }
+  },
+  created: function(){
+    window.addEventListener('keydown', this.cycle)
+  },
+  beforeMount: function(){
+    if (!this.scopedState && this.history.length > 0){
+      this.$store.dispatch("logger/select", { record:this.history[0] })
+    }
+  },
+  beforeDestroy: function () {
+    window.removeEventListener('keydown', this.cycle)
   }
 }
 </script>
 
 <style lang="scss">
-  @import '@/variables.scss';
+@import '@/variables.scss';
 
-  .log-master-container{
-    font-family: 'Courier New', Courier, monospace;
-    font-size: .8em;
-    font-weight: 600;
-    color: black;
-    background-color: $context-background-color;
+.log-master-container{
+  font-family: $logger-font-family;
+  font-size: .85em;
+  color: $accent-dark;
+  background-color: $context-background-color;
 
-    display: flex;
-    width: 1000px;
-    flex-grow: 0;
-    justify-content: flex-start;
-    flex-direction: row;
-    align-items: flex-start;
-    cursor: pointer;
+  pre { 
+    font-family: $logger-font-family;
   }
+
+  display: flex;
+  width: 1000px;
+  flex-grow: 0;
+  justify-content: flex-start;
+  flex-direction: row;
+  align-items: flex-start;
+  cursor: pointer;
+
   .log-entry-container {
     flex: 0 1 auto;
     position: relative;
@@ -75,7 +96,7 @@ export default {
     overflow-x: scroll;
     
     .selected {
-      background-color: red;
+      background-color: $accent-alert;
     }
 
     .entry {
@@ -93,7 +114,6 @@ export default {
         margin-right: 2em;
       }
       .message {
-        // display: block;
         width: 400px;
       }
     }
@@ -104,5 +124,5 @@ export default {
     width: 400px;
     height: 100vh;
   }
-
+}
 </style>
